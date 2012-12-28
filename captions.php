@@ -47,11 +47,11 @@
 		$captions = array();
 		foreach ($file_records as $filerecord) {
 			$filename = $filerecord->filename;
-			if ( eregi("\.jpe?g$", $filename) || eregi("\.gif$", $filename) || eregi("\.png$", $filename)) {
-				if (eregi("^thumb_", $filename)) {
+			if ( preg_match("#\.jpe?g$#i", $filename) || preg_match("#\.gif$#i", $filename) || preg_match("#\.png$#i", $filename)) {
+				if (preg_match("#^thumb_?#i", $filename)) {
 					continue;
 				}
-				if (eregi("^resized_", $filename)) {
+				if (preg_match("#^resized_#i", $filename)) {
 					if ($slideshow->keeporiginals) {
 						continue;
 					}else{
