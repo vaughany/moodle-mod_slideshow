@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -35,11 +34,11 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
         $paths = array();
         $paths[] = new restore_path_element('slideshow', '/activity/slideshow');
         $paths[] = new restore_path_element('slideshow_caption', '/activity/slideshow/captions/caption');
-				$paths[] = new restore_path_element('slideshow_comment', '/activity/slideshow/comments/comment');
-				$paths[] = new restore_path_element('slideshow_read_position', '/activity/slideshow/read_positions/read_position');
-				$paths[] = new restore_path_element('slideshow_media_entry', '/activity/slideshow/media/media_entry');
+                $paths[] = new restore_path_element('slideshow_comment', '/activity/slideshow/comments/comment');
+                $paths[] = new restore_path_element('slideshow_read_position', '/activity/slideshow/read_positions/read_position');
+                $paths[] = new restore_path_element('slideshow_media_entry', '/activity/slideshow/media/media_entry');
 
-        // Return the paths wrapped into standard activity structure
+        // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
     }
 
@@ -51,13 +50,13 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
         $data->course = $this->get_courseid();
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
-        // insert the resource record
+        // Insert the resource record.
         $newitemid = $DB->insert_record('slideshow', $data);
-        // immediately after inserting "activity" record, call this
+        // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
-	protected function process_slideshow_caption($data) {
+    protected function process_slideshow_caption($data) {
         global $DB;
 
         $data = (object)$data;
@@ -69,7 +68,7 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
         $this->set_mapping('slideshow_caption', $oldid, $newitemid);
     }
 
-	protected function process_slideshow_comment($data) {
+    protected function process_slideshow_comment($data) {
         global $DB;
 
         $data = (object)$data;
@@ -81,7 +80,7 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
         $this->set_mapping('slideshow_comment', $oldid, $newitemid);
     }
 
-	protected function process_slideshow_read_position($data) {
+    protected function process_slideshow_read_position($data) {
         global $DB;
 
         $data = (object)$data;
@@ -93,7 +92,7 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
         $this->set_mapping('slideshow_read_position', $oldid, $newitemid);
     }
 
-	protected function process_slideshow_media_entry($data) {
+    protected function process_slideshow_media_entry($data) {
         global $DB;
 
         $data = (object)$data;
@@ -106,7 +105,7 @@ class restore_slideshow_activity_structure_step extends restore_activity_structu
     }
 
     protected function after_execute() {
-        // Add slideshow related files, no need to match by itemname (just internally handled context)
+        // Add slideshow related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_slideshow', 'content', null);
     }
 }

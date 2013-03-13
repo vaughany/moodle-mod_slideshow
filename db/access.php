@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capability definitions for the quiz module.
+ * Capability definitions for the Slideshow module.
  *
  * @package    mod_slideshow
  * @copyright  2012 Paul Vaughan - cribbed from The Open University
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    // Ability to see that the slideshow exists, and the basic information about it
+    // Ability to see that the slideshow exists, and the basic information about it.
     'mod/slideshow:view' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
@@ -72,4 +72,3 @@ $capabilities = array(
     ),
 
 );
-

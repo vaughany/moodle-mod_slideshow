@@ -1,13 +1,31 @@
-<?PHP // $Id$ 
-
+<?php
+// This file is part of Moodle - http://moodle.org/
 //
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * @package moodlecore
+ * @subpackage slideshow
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 $string['modulename'] = 'Slideshow';
 $string['pluginname'] = 'Slideshow';
 $string['modulenameplural'] = 'Slideshows';
 $string['pluginadministration'] = 'Slideshow';
 $string['slideshowsfound'] = 'Slideshows in course {$a}';
 
-// for mod.html
 $string['chooseapacket'] = 'Choose or change dir';
 $string['coursepacket'] = 'Slideshow directory';
 $string['maindirectory'] = 'Main Files Directory';
@@ -25,7 +43,6 @@ $string['noautoplay'] = 'No autoplay';
 $string['htmlcaptions'] = 'HTML editor for captions?';
 $string['comments'] = 'Allow comments?';
 
-// for view.php
 $string['none_found'] = 'No images found in main files directory';
 $string['dir_problem'] = 'Unspecified problem with directory specified';
 $string['open_new'] = 'Open in new window to print';
@@ -36,7 +53,7 @@ $string['edit_captions'] = 'Edit captions';
 $string['original_exists'] = 'Original already exists in ';
 $string['original_moved'] = 'Original moved to ';
 $string['original_deleted'] = 'Original deleted.';
-// for captions.php
+
 $string['captiontext'] = 'You can enter quite a large amount of text and html in the caption fields. <p>To make your captions permanent, you must use the &quot;Save&quot; button which is near the bottom of the page.';
 $string['captionedit'] = 'Editing captions';
 $string['save_changes'] = 'Save changes';
@@ -47,7 +64,6 @@ $string['caption'] = 'Caption';
 $string['title'] = 'Title';
 $string['noauth'] = 'You do not have permission to edit captions.';
 
-// for comments
 $string['comment'] = 'Comment';
 $string['comment_insert_error'] = 'There was an error inserting the comment into the database.';
 $string['comment_add'] = 'Add a comment to this slide';
@@ -55,7 +71,6 @@ $string['comment_instructions'] = 'Comments are public and viewable by all.';
 $string['comments_header'] = 'Comments';
 $string['comments_not_allowed'] = 'Comments are disabled for this slideshow.';
 
-// for media
 $string['media'] = 'Media';
 $string['media_add'] = 'Add/edit media for this slide';
 $string['media_instructions'] = 'Paste the URL to a Youtube or Vimeo video in the URL box. You can specify height and width and also drag the video box for position.';
@@ -68,8 +83,7 @@ $string['media_edit_y'] = 'Y position';
 $string['media_edit_width'] = 'Width';
 $string['media_edit_height'] = 'Height';
 $string['media_edit_position'] = 'Drag this box to the desired position for your media';
- 
-// for config.html
+
 $string['configmaxbytes'] = 'Largest filesize permissible (Kb) before the image is resized and saved';
 $string['configmaxwidth'] = 'Maximum width for images (pixels)';
 $string['configmaxheight'] = 'Maximum height for images (pixels)';

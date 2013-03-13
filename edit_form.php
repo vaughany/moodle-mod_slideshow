@@ -1,38 +1,63 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * @package moodlecore
+ * @subpackage slideshow
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 require_once($CFG->libdir.'/formslib.php');
 class mod_slideshow_edit_form extends moodleform {
-    function definition() {
+
+    public function definition() {
         global $CFG;
-        
+
         $mform = $this->_form;
-        $captions = $this->_customdata['captions'];
-        $htmledit = $this->_customdata['htmledit'];
-        $context = $this->_customdata['context'];
-        $slideshowid = $this->_customdata['slideshowid'];
-        
-        
-				$imagenum = 1;
-				$thumbnail_path = slideshow_get_thumbnail_path($context);
-				
-				foreach ($captions as $caption) {
-					$mform->addElement('header', 'header', '<img src="'.$thumbnail_path["base"].$caption["image"].'.'.$thumbnail_path["extension"].'"> ('.$caption['image'].'.'.$thumbnail_path["extension"].')');
-					$mform->addElement('text', 'title'.$imagenum, get_string('title', 'slideshow',$caption['image']));
-					$mform->setType('title'.$imagenum, PARAM_RAW);
-					$mform->setDefault('title'.$imagenum, $caption['title']);
-					if ($htmledit) {
-						$mform->addElement('editor', 'caption'.$imagenum,get_string('caption', 'slideshow',$caption['image']));
-						$mform->setType('caption'.$imagenum, PARAM_RAW);
-						$mform->setDefault('caption'.$imagenum, array('text' => $caption['caption']));
-					} else {
-						$mform->addElement('textarea', 'caption'.$imagenum,get_string('caption', 'slideshow',$caption['image']));
-						$mform->setType('caption'.$imagenum, PARAM_RAW);
-						$mform->setDefault('caption'.$imagenum, $caption['caption']);
-					}
-					$mform->addElement('hidden', 'image'.$imagenum);
-					$mform->setType('image'.$imagenum, PARAM_RAW);
-					$mform->setDefault('image'.$imagenum, $caption['image']);
-					$imagenum++;
-				}
+        $captions       = $this->_customdata['captions'];
+        $htmledit       = $this->_customdata['htmledit'];
+        $context        = $this->_customdata['context'];
+        $slideshowid    = $this->_customdata['slideshowid'];
+
+        $imagenum       = 1;
+        $thumbnail_path = slideshow_get_thumbnail_path($context);
+
+        foreach ($captions as $caption) {
+            $mform->addElement('header', 'header', '<img src="'.$thumbnail_path["base"].$caption["image"].'.'.
+                $thumbnail_path["extension"].'"> ('.$caption['image'].'.'.$thumbnail_path["extension"].')');
+            $mform->addElement('text', 'title'.$imagenum, get_string('title', 'slideshow', $caption['image']));
+            $mform->setType('title'.$imagenum, PARAM_RAW);
+            $mform->setDefault('title'.$imagenum, $caption['title']);
+
+            if ($htmledit) {
+                $mform->addElement('editor', 'caption'.$imagenum, get_string('caption', 'slideshow', $caption['image']));
+                $mform->setType('caption'.$imagenum, PARAM_RAW);
+                $mform->setDefault('caption'.$imagenum, array('text' => $caption['caption']));
+            } else {
+                $mform->addElement('textarea', 'caption'.$imagenum, get_string('caption', 'slideshow', $caption['image']));
+                $mform->setType('caption'.$imagenum, PARAM_RAW);
+                $mform->setDefault('caption'.$imagenum, $caption['caption']);
+            }
+
+            $mform->addElement('hidden', 'image'.$imagenum);
+            $mform->setType('image'.$imagenum, PARAM_RAW);
+            $mform->setDefault('image'.$imagenum, $caption['image']);
+            $imagenum++;
+        }
+
         $mform->addElement('hidden', 'imagenum');
         $mform->setType('imagenum', PARAM_RAW);
         $mform->setDefault('imagenum', $imagenum);
@@ -42,37 +67,40 @@ class mod_slideshow_edit_form extends moodleform {
         $this->add_action_buttons(true);
     }
 }
+
 class mod_slideshow_comment_form extends moodleform {
-    function definition() {
-			global $CFG;
-			
-			$mform = $this->_form;
-			$htmledit = $this->_customdata['htmledit'];
-			$context = $this->_customdata['context'];
-			$slideshowid = $this->_customdata['slideshowid'];
-			$slidenumber = $this->_customdata['slidenumber'];
-			$img_filename = $this->_customdata['imgfilename'];
 
-			$thumbnail_path = slideshow_get_thumbnail_path($context);
-		        
-			$mform->addElement('header', 'header', '<img src="'.$thumbnail_path["base"].$img_filename.'.'.$thumbnail_path["extension"].'"> ('.$img_filename.'.'.$thumbnail_path["extension"].')');
-			if ($htmledit) {
-				$mform->addElement('editor', 'slidecomment', get_string('comment', 'slideshow'));
-				$mform->setType('comment', PARAM_RAW);
-			} else {
-				$mform->addElement('textarea', 'slidecomment', get_string('comment', 'slideshow'));
-				$mform->setType('comment', PARAM_CLEAN);
-			}
+    public function definition() {
+        global $CFG;
 
-			$mform->addElement('hidden', 'slideshowid', $slideshowid);
-			$mform->setType('slideshowid', PARAM_RAW);
+        $mform = $this->_form;
+        $htmledit = $this->_customdata['htmledit'];
+        $context = $this->_customdata['context'];
+        $slideshowid = $this->_customdata['slideshowid'];
+        $slidenumber = $this->_customdata['slidenumber'];
+        $img_filename = $this->_customdata['imgfilename'];
 
-			$mform->addElement('hidden', 'slidenumber', $slidenumber);
-			$mform->setType('slidenumber', PARAM_RAW);
-			
-			$mform->addElement('hidden', 'id', $context->instanceid);
-			$mform->setType('id', PARAM_RAW);
-			$this->add_action_buttons(true, 'Save');
+        $thumbnail_path = slideshow_get_thumbnail_path($context);
+
+        $mform->addElement('header', 'header', '<img src="'.$thumbnail_path["base"].$img_filename.'.'.
+            $thumbnail_path["extension"].'"> ('.$img_filename.'.'.$thumbnail_path["extension"].')');
+        if ($htmledit) {
+            $mform->addElement('editor', 'slidecomment', get_string('comment', 'slideshow'));
+            $mform->setType('comment', PARAM_RAW);
+        } else {
+            $mform->addElement('textarea', 'slidecomment', get_string('comment', 'slideshow'));
+            $mform->setType('comment', PARAM_CLEAN);
+        }
+
+        $mform->addElement('hidden', 'slideshowid', $slideshowid);
+        $mform->setType('slideshowid', PARAM_RAW);
+
+        $mform->addElement('hidden', 'slidenumber', $slidenumber);
+        $mform->setType('slidenumber', PARAM_RAW);
+
+        $mform->addElement('hidden', 'id', $context->instanceid);
+        $mform->setType('id', PARAM_RAW);
+        $this->add_action_buttons(true, 'Save');
     }
 }
 
@@ -80,62 +108,62 @@ class mod_slideshow_comment_form extends moodleform {
  * Defines the form for adding/editing a media element to a slide.
  */
 class mod_slideshow_media_form extends moodleform {
-    function definition() {
-			global $CFG;
-			
-			$mform = $this->_form;
-			$context = $this->_customdata['context'];
-			$slideshowid = $this->_customdata['slideshowid'];
-			$slidenumber = $this->_customdata['slidenumber'];
-			$img_filename = $this->_customdata['imgfilename'];
-			$media = $this->_customdata['media'];
 
-			$thumbnail_path = slideshow_get_thumbnail_path($context);
-			// FIXME Naïve way to get path to the full-size slide.
-			$thumbnail_path["base"] = str_replace("thumb_", "resized_", $thumbnail_path["base"]);
+    public function definition() {
+        global $CFG;
 
-			$mform->addElement('header', 'header', '('.$img_filename.'.'.$thumbnail_path["extension"].')');
+        $mform = $this->_form;
+        $context = $this->_customdata['context'];
+        $slideshowid = $this->_customdata['slideshowid'];
+        $slidenumber = $this->_customdata['slidenumber'];
+        $img_filename = $this->_customdata['imgfilename'];
+        $media = $this->_customdata['media'];
 
-			$slide_width = $CFG->slideshow_maxwidth;
-			$slide_height = $CFG->slideshow_maxheight;
-			$img_html = '<div id="slide" style="background-image: url(\''.$thumbnail_path["base"].$img_filename.'.'.$thumbnail_path["extension"].'\'); width: ' . $slide_width . 'px; height:' . $slide_height . 'px;"><span id="media_outline" class="sdmediaoutline" >' . get_string('media_edit_position', 'slideshow') . '</span></div>';
-			$mform->addElement('html', $img_html); 
+        $thumbnail_path = slideshow_get_thumbnail_path($context);
+        // FIXME Naïve way to get path to the full-size slide.
+        $thumbnail_path["base"] = str_replace("thumb_", "resized_", $thumbnail_path["base"]);
 
+        $mform->addElement('header', 'header', '('.$img_filename.'.'.$thumbnail_path["extension"].')');
 
-			$mform->addElement('text', 'mediaurl', get_string('media_edit_url', 'slideshow'));
-			$mform->setType('mediaurl', PARAM_TEXT);
+        $slide_width = $CFG->slideshow_maxwidth;
+        $slide_height = $CFG->slideshow_maxheight;
+        $img_html = '<div id="slide" style="background-image: url(\''.$thumbnail_path["base"].$img_filename.'.'.
+            $thumbnail_path["extension"].'\'); width: ' . $slide_width . 'px; height:' . $slide_height .
+            'px;"><span id="media_outline" class="sdmediaoutline" >' . get_string('media_edit_position', 'slideshow') . '</span></div>';
+        $mform->addElement('html', $img_html);
 
-			$mform->addElement('hidden', 'mediaX', get_string('media_edit_x', 'slideshow'));
-			$mform->setType('mediaX', PARAM_INT);
+        $mform->addElement('text', 'mediaurl', get_string('media_edit_url', 'slideshow'));
+        $mform->setType('mediaurl', PARAM_TEXT);
 
-			$mform->addElement('hidden', 'mediaY', get_string('media_edit_y', 'slideshow'));
-			$mform->setType('mediaY', PARAM_INT);
+        $mform->addElement('hidden', 'mediaX', get_string('media_edit_x', 'slideshow'));
+        $mform->setType('mediaX', PARAM_INT);
+        $mform->addElement('hidden', 'mediaY', get_string('media_edit_y', 'slideshow'));
+        $mform->setType('mediaY', PARAM_INT);
 
-			$mform->addElement('text', 'mediawidth', get_string('media_edit_width', 'slideshow'));
-			$mform->setType('mediawidth', PARAM_INT);
-			
-			$mform->addElement('text', 'mediaheight', get_string('media_edit_height', 'slideshow'));
-			$mform->setType('mediaheight', PARAM_INT);
+        $mform->addElement('text', 'mediawidth', get_string('media_edit_width', 'slideshow'));
+        $mform->setType('mediawidth', PARAM_INT);
 
-			if($media) {
-				$mform->setDefault('mediaurl', $media->url);
-				$mform->setDefault('mediaX', $media->x);
-				$mform->setDefault('mediaY', $media->y);
-				$mform->setDefault('mediawidth', $media->width);
-				$mform->setDefault('mediaheight', $media->height);
-			}
+        $mform->addElement('text', 'mediaheight', get_string('media_edit_height', 'slideshow'));
+        $mform->setType('mediaheight', PARAM_INT);
 
-			$mform->addElement('checkbox', 'mediadelete', "Delete media from slide");
+        if ($media) {
+            $mform->setDefault('mediaurl', $media->url);
+            $mform->setDefault('mediaX', $media->x);
+            $mform->setDefault('mediaY', $media->y);
+            $mform->setDefault('mediawidth', $media->width);
+            $mform->setDefault('mediaheight', $media->height);
+        }
 
-			$mform->addElement('hidden', 'slideshowid', $slideshowid);
-			$mform->setType('slideshowid', PARAM_RAW);
+        $mform->addElement('checkbox', 'mediadelete', "Delete media from slide");
 
-			$mform->addElement('hidden', 'slidenumber', $slidenumber);
-			$mform->setType('slidenumber', PARAM_RAW);
-			
-			$mform->addElement('hidden', 'id', $context->instanceid);
-			$mform->setType('id', PARAM_RAW);
-			$this->add_action_buttons(true, 'Save');
+        $mform->addElement('hidden', 'slideshowid', $slideshowid);
+        $mform->setType('slideshowid', PARAM_RAW);
+
+        $mform->addElement('hidden', 'slidenumber', $slidenumber);
+        $mform->setType('slidenumber', PARAM_RAW);
+
+        $mform->addElement('hidden', 'id', $context->instanceid);
+        $mform->setType('id', PARAM_RAW);
+        $this->add_action_buttons(true, 'Save');
     }
 }
-?>
